@@ -117,7 +117,73 @@ void function(void)
 
 void logic(void)
 {
+    int prevX = tailx[0];
+    int prevY = taily[0];
+    int prev2X, prev2Y;
+    tailx[0] = x;
+    taily[0] = y;
 
+    for (int i = 1; i <tail; i++)
+    {
+        prev2X = tailx[i];
+        prev2Y = taily[i];
+        tailx[i] = prevX;
+        taily[i] = prevY;
+        prevX = prev2X;
+        prevY = prev2Y;
+    }
+
+    switch (dir)
+    {
+        case up:
+        y--;
+        break;
+
+        case down:
+        y++;
+        break;
+        
+        case left:
+        x--;
+        break;
+
+        case right:
+        x++;
+        break;
+    }
+    if (x >= Width)
+    {
+        x = 0;
+    }
+    else if ( x < 0)
+    {
+        x = Width - 1;
+    }
+
+    if (x >= Width)
+    {
+        y = 0;
+    }
+    else if (y < 0) 
+    {
+        y = height - 1;
+    }
+
+    for(int i = 0; i < tail; i++)
+    {
+        if(tailx[i] == x && taily[i] == y)
+        {
+            gameover = 1;
+        }
+    }
+    if (x == fruitX && y == fruitY)
+    {
+        score += 50;
+        fruitX = rand() % Width;
+        fruitY = rand() % height;
+        tail++;
+    }
+    
 }
 
 int main(void)
@@ -127,6 +193,8 @@ int main(void)
     {
         draw();
         function();
+        logic();
+        usleep(1000);
     }
-    
+    return 0;
 }
