@@ -1,9 +1,9 @@
-#include <conio.h>
+#include <curses.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <windows.h>
+#include <termios.h>
 #include <time.h>
 
 #define Width 40
@@ -40,7 +40,7 @@ void function(void)
 
 void logic(void)
 {
-    
+
 }
 
 int main(void)
