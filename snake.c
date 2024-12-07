@@ -83,7 +83,36 @@ void draw(void)
 
 void function(void)
 {
+    struct termios old_tio, new_tio;
+    unsigned char ch;
 
+    tcgetattr(STDIN_FILENO, &old_tio);
+    new_tio = old_tio;
+    new_tio.c_lflag &= (~ICANON & ~ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &new_tio);
+
+    if (read(STDIN_FILENO, &ch, 1) == 1)
+    {
+        switch (tolower(ch))
+        {
+        case 'w':
+        dir = up;
+            break;
+        case 's':
+        dir = down;
+            break;
+        case 'd':
+        dir = right;
+            break;
+        case 'a':
+        dir = left;
+            break;
+        case 'k':
+        gameover = 1;
+            break;
+        }
+    }
+    tcsetattr(STDIN_FILENO, TCSANOW, &new_tio);
 }
 
 void logic(void)
@@ -94,5 +123,10 @@ void logic(void)
 int main(void)
 {
     setup();
-
+    while (!gameover)
+    {
+        draw();
+        function();
+    }
+    
 }
